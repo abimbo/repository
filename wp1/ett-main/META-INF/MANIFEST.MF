@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ett-main
+Bundle-SymbolicName: ett-main
+Bundle-Version: 1.0.0.qualifier
+Export-Package: com.pank.ett.beans,
+ com.pank.ett.persistence.dao,
+ com.pank.ett.persistence.dao.imp,
+ com.pank.ett.persistence.model,
+ com.pank.ett.service
