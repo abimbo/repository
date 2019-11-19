@@ -6,24 +6,27 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets">
     
-<head>
+<h:head>
 	<ui:insert name="title">
 		<title>ETTERMI-TANULO-PROJEKT</title>
 	</ui:insert>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-</head>
+</h:head>
 	<h:body>
-			<h1>Hello Panka ....!!!</h1>
+			<h1>Hello Panka .....!!!</h1>
 			
-			<div id="center" style="height: 300px; width: 50%; margin: auto;">
 			<h:form id="form" >
 			    <p:dataTable id="prTable" 
 			    	var="pr"
 			    	value="#{prBean.prList}" 
 			    	selectionMode="single" 
+			    	selection="#{prBean.selectedPr}"
 			    	rowKey="#{pr.id}"
 	    			emptyMessage="Nincs adat">
+	    			
+					<p:ajax event="rowSelect" listener="#{prBean.onPrSelected}" 
+						update=":form"/>
 
 			        <f:facet name="header">
 			            Próba lista
@@ -36,8 +39,50 @@
 			        	<h:outputText value="#{pr.data}" />
 			        </p:column>
 	    		</p:dataTable>
-	    	</h:form>
-	    	</div>
-	</h:body>
+	    		<p:panelGrid>
+	        	 	<p:commandButton value="Törlés" id="delete" style="float: right" disabled="false"
+			    		actionListener="#{prBean.delete}" update="@form"/>
+	        	 	<p:commandButton value="Módosítás" id="modify" style="float: right" disabled="false"
+			    		onclick="PF('modifyData').show();"/>
+	    			<p:commandButton value="Új" id="new" style="float: right" disabled="false"
+	    			 	onclick="PF('newData').show();"/>			
+	    		</p:panelGrid>
 
+		    	<p:dialog header="Létrehozás" id="newData" widgetVar="newData" 
+	     			modal="true" hideEffect="fade" resizable="true" position="Relative top">
+	     			<p:dataGrid var="pr" value="#{prBean.newPr}" columns="2" layout="grid">
+	 			        
+	 			        <p:outputLabel for="id1" value="id" rendered="false"/>
+				        	<h:outputText id="id1" value="#{pr.id}" rendered="false"/>
+				        
+				        <p:outputLabel for="data1" value="Adat" />
+				            <p:inputText id="data1" value="#{pr.data}" />
+	     				
+	     			</p:dataGrid>
+	     			<p:panelGrid>
+		        	 	<p:commandButton value="Mégsem" id="nothing1" style="float: right" 
+				    		onclick="PF('newData').hide();"/>
+		        	 	<p:commandButton value="Ok" id="modify1" style="float: right" 
+				    		actionListener="#{prBean.create}" update=":form" onclick="PF('newData').hide();" />
+	     			</p:panelGrid>
+	     	
+     			</p:dialog>
+ 		    	<p:dialog header="Módosítás" id="modifyData" widgetVar="modifyData" 
+	     			modal="true" hideEffect="fade" resizable="true" position="Relative top">   			
+	    			<p:dataGrid var="pr" value="#{prBean.selectedPr}" columns="2" layout="grid">
+	
+				        <p:outputLabel for="data2" value="Adat" />
+				            <p:inputText id="data2" value="#{pr.data}" />
+				            
+	     			</p:dataGrid>
+	     			<p:panelGrid>
+		        	 	<p:commandButton value="Mégsem" id="nothing2" style="float: right"
+				    		onclick="PF('modifyData').hide();"/>
+		        	 	<p:commandButton value="Ok" id="modify2" style="float: right" 
+				    		actionListener="#{prBean.update}" update=":form" onclick="PF('modifyData').hide();" />
+	     			</p:panelGrid>
+
+     			</p:dialog>
+     		</h:form>
+	</h:body>
 </html>

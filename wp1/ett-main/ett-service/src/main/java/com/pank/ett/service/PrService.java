@@ -5,6 +5,7 @@ import com.pank.ett.persistence.model.Pr;
 
 public interface PrService {
 	public List<Pr> listPr();
+	public Pr createPr(Pr pr);
 	public Pr updatePr(Pr pr);
-	public void deletePr(Pr pr);
+	public Pr deletePr(Pr pr);
 }

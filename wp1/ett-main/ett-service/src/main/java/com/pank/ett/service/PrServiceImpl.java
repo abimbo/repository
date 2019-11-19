@@ -16,7 +16,7 @@ import com.pank.ett.persistence.model.Pr;
 
 @Service("prService")
 public class PrServiceImpl implements PrService, Serializable {	
-	Serializable serialVersionUID = 1L;	
+	private static final long serialVersionUID = 1L;
 	private static Logger logger = Logger.getLogger(PrServiceImpl.class);
 
 	@Autowired
@@ -32,12 +32,23 @@ public class PrServiceImpl implements PrService, Serializable {
 	
 	@Transactional
 	public Pr updatePr(Pr getPr){
-		Pr pr = prDao.update(getPr);
+		logger.debug("UpdatePr");
+		Pr pr = prDao.updatePr(getPr);
 		return pr;
 	}
 	
 	@Transactional
-	public void deletePr(Pr getPr){
-		prDao.delete(getPr);
+	public Pr deletePr(Pr getPr){
+		logger.debug("DeletePr");
+		getPr = prDao.deletePr(getPr);
+		return getPr;
 	}
+	
+	@Transactional
+	public Pr createPr(Pr getPr){
+		logger.debug("CreatePr");
+		getPr = prDao.createPr(getPr);
+		return getPr;
+	}
+
 }
