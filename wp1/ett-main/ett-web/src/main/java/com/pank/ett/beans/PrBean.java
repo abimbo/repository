@@ -1,23 +1,37 @@
 package com.pank.ett.beans;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
+import java.sql.Blob;
+import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.event.PhaseId;
+
 
 import org.apache.log4j.Logger;
+import org.hibernate.engine.jdbc.internal.BinaryStreamImpl;
 import org.primefaces.event.SelectEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
 import com.pank.ett.persistence.model.Pr;
 import com.pank.ett.service.PrService;
 
 
 @ManagedBean(name = "prBean")
-@ViewScoped
+@SessionScoped
 
 public class PrBean implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -26,15 +40,44 @@ public class PrBean implements Serializable {
 	private List<Pr> prList;
 	private Pr selectedPr;
 	private Pr newPr = new Pr();
+	private HashMap<Integer, byte[]> hashImage = new HashMap<Integer, byte[]>();
 
 	@ManagedProperty("#{prService}")
     private PrService prService;
+	private BinaryStreamImpl bs;
 	
 	@PostConstruct
 	public void init(){
 		prList = prService.listPr();
+		for (Pr pr :prList){
+			hashImage.put(pr.getId(), pr.getImage());
+		}
 		selectedPr = prList.get(0);
 	}
+	
+	public StreamedContent getImageFromDB() {
+		
+		FacesContext context = FacesContext.getCurrentInstance();
+
+		if (context.getCurrentPhaseId() == PhaseId.RENDER_RESPONSE) {
+			return new DefaultStreamedContent();
+		} else {
+			Map<String,String> params = context.getExternalContext().getRequestParameterMap();
+			Integer id = Integer.parseInt(params.get("id"));
+//			return new DefaultStreamedContent(new ByteArrayInputStream(selectedPr.getImage()),
+//			"image/jpg");
+			return new DefaultStreamedContent(new ByteArrayInputStream(hashImage.get(id)),
+			"image/jpg");
+		}
+	}
+
+//	public StreamedContent getImageFromDB() {
+//		FacesContext context = FacesContext.getCurrentInstance();
+//		Map<String,String> params = context.getExternalContext().getRequestParameterMap();
+//		Integer id = Integer.parseInt(params.get("id"));
+//		return new DefaultStreamedContent(new ByteArrayInputStream(hashImage.get(5)),"image/jpg");
+//	}
+
 	
 	public void create(){
 		logger.debug("Create");
@@ -91,5 +134,4 @@ public class PrBean implements Serializable {
 	public void onPrSelected(SelectEvent event){
 //		selectedPr = event.getObject().getClass();
 	}
-
 }

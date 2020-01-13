@@ -8,7 +8,7 @@
     
 <h:head>
 	<ui:insert name="title">
-		<title>ETTERMI-TANULO-PROJEKT</title>
+		<title>ENNI JÓ ETTEREM</title>
 	</ui:insert>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
@@ -17,6 +17,8 @@
 			<h1>Hello Panka .....!!!</h1>
 			
 			<h:form id="form" >
+				<p:graphicImage url="/resources/2_800_032_140.jpg" title="Kép"/>
+			
 			    <p:dataTable id="prTable" 
 			    	var="pr"
 			    	value="#{prBean.prList}" 
@@ -37,6 +39,11 @@
 			        </p:column>
 			        <p:column headerText="Adat">
 			        	<h:outputText value="#{pr.data}" />
+			        </p:column>
+			        <p:column headerText="kep">
+			        	<p:graphicImage value="#{prBean.imageFromDB}" style="width:50px;width:50px">
+    						<f:param name="id" value="#{pr.id}" />
+  						</p:graphicImage>
 			        </p:column>
 	    		</p:dataTable>
 	    		<p:panelGrid>

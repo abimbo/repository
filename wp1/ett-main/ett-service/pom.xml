@@ -69,5 +69,18 @@
         	<artifactId>ett-persistence</artifactId>
         	<version>0.0.1-SNAPSHOT</version>
         </dependency>
+		<!-- https://mvnrepository.com/artifact/org.primefaces.extensions/primefaces-extensions -->
+		<dependency>
+		    <groupId>org.primefaces.extensions</groupId>
+		    <artifactId>primefaces-extensions</artifactId>
+		    <version>6.0.0</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.primefaces.extensions/all-themes -->
+		<dependency>
+		    <groupId>org.primefaces.extensions</groupId>
+		    <artifactId>all-themes</artifactId>
+		    <version>1.0.8</version>
+		</dependency>
   </dependencies>
  </project>

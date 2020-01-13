@@ -88,4 +88,8 @@
     <param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
     <param-value>resources.application</param-value>
   </context-param>
+  <mime-mapping>
+    <extension>png <!--{or the extension of file}--></extension>
+    <mime-type>text/html</mime-type>
+  </mime-mapping>
 </web-app>

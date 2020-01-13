@@ -8,4 +8,5 @@ public interface PrService {
 	public Pr createPr(Pr pr);
 	public Pr updatePr(Pr pr);
 	public Pr deletePr(Pr pr);
+	public byte[] getImageFromPr(int id);
 }

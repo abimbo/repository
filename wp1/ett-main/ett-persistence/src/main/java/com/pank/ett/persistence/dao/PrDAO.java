@@ -10,5 +10,6 @@ public interface PrDAO extends CRUD<Pr, Integer>, Listable<Pr>{
 	public Pr deletePr(Pr getPr);
 	public Pr createPr(Pr getPr);
 	public Pr updatePr(Pr getPr);
+	public byte[] getImageFromPr(int id);
 	
 }

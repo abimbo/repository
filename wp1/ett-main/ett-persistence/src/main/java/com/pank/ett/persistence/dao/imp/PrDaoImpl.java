@@ -16,6 +16,8 @@ import com.pank.ett.persistence.model.Pr;
 public class PrDaoImpl extends CRUDAdapter<Pr, Integer> implements PrDAO, Serializable{
 	private static final long serialVersionUID = 1L;
     private static final String FIELD_ID = "id";
+    
+    private static final String GET_IMAGE_FROM_PR = "select image from Pr where Pr.id = :id";
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -28,6 +30,14 @@ public class PrDaoImpl extends CRUDAdapter<Pr, Integer> implements PrDAO, Serial
     @Override
     public String getIdField() {
 	return FIELD_ID;
+    }
+    
+    @Override
+    public byte[] getImageFromPr(int id){
+    Query resultQuery = sessionFactory.getCurrentSession().createQuery(GET_IMAGE_FROM_PR);
+    resultQuery.setParameter("id",id);
+    Pr pr = (Pr) resultQuery.list().get(0);
+    return pr.getImage();
     }
     
     @Override
